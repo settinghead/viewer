@@ -5,11 +5,14 @@
 package com.risevision.viewer.client.info;
 
 public class ViewerPlayerInfo {
+	public static final String ORIENTATION = "orientation";
+
 	private String restartRequired;
 	private String rebootRequired;
 	private String rebootTime;
 	private String rebootEnabled;
 	private String updateRequired;
+	private int orientation;
 	
 	public String getRestartRequired() {
 		return restartRequired;
@@ -49,6 +52,14 @@ public class ViewerPlayerInfo {
 
 	public void setUpdateRequired(String updateRequired) {
 		this.updateRequired = updateRequired;
+	}
+
+	public int getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(int orientation) {
+		this.orientation = orientation;
 	}
 	
 }

@@ -27,6 +27,7 @@ public class RisePlayerController {
 	private static final String paramRebootTime = "reboot_time";
 	private static final String paramRebootEnabled = "reboot_enabled";
 	private static final String paramUpdateRequired = "update_required";
+	private static final String paramOrientation = "orientation";
 	
 	private static final String displayCommand = "display_command";
 	
@@ -64,6 +65,7 @@ public class RisePlayerController {
 					"&" + paramRebootTime + "=" + playerInfo.getRebootTime() +
 					"&" + paramRebootEnabled + "=" + playerInfo.getRebootEnabled() +
 					"&" + paramUpdateRequired + "=" + playerInfo.getUpdateRequired() +
+					"&" + paramOrientation + "=" + playerInfo.getOrientation() +
 					"&" + getTimestampParam();
 			
 			callUrlNative(url, cmdSetProperty);

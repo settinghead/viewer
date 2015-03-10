@@ -14,6 +14,7 @@ import com.risevision.common.client.info.ScheduleInfo;
 import com.risevision.common.client.json.JSOModel;
 import com.risevision.common.client.json.PlaylistItemJsonParser;
 import com.risevision.common.client.json.TimelineJsonParser;
+import com.risevision.common.client.utils.RiseUtils;
 import com.risevision.core.api.attributes.DisplayAttribute;
 import com.risevision.core.api.attributes.PresentationAttribute;
 import com.risevision.core.api.attributes.ScheduleAttribute;
@@ -131,6 +132,7 @@ public class ViewerDataParser {
 				
 				playerInfo.setRebootTime(display.get(DisplayAttribute.RESTART_TIME, ""));
 				playerInfo.setRebootEnabled(display.get(DisplayAttribute.RESTART_ENABLED, ""));
+				playerInfo.setOrientation(RiseUtils.strToInt(display.get(ViewerPlayerInfo.ORIENTATION, ""), 0));
 			}
 
 			RisePlayerController.setPlayerInfo(playerInfo);
