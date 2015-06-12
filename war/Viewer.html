@@ -12,7 +12,32 @@
 <!-- 	<meta property="og:description" content="This is a preview of a Rise Vision Presentation." /> -->
 	<meta name="google" content="notranslate" />
 <!-- 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/> -->
-    <title>Viewer</title>
+  <script>
+    function getUrlVars() {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+      function(m,key,value) {
+        vars[key] = value;
+      });
+      return vars;
+    }
+    (function() {
+      var line1 = '';
+      var w = getUrlVars()['vw'];
+      var h = getUrlVars()['vh'];
+      var viewportEnabled = getUrlVars()['viewport'];
+      if (viewportEnabled === 'false') {
+        line1 = '';
+      } else if (w && h) {
+        line1 = '<meta name="viewport" content="width=' + w +', height=' + h + '">'; 
+      } else {
+        line1 = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
+      }
+      document.write(line1);
+    }());
+  </script>
+
+  <title>Viewer</title>
     
 	<link type="text/css" rel="stylesheet" href="../style/viewer.css">
   </head>
@@ -28,25 +53,7 @@
 	<div id="gcfInfo" style="visibility:hidden;">
 		<div>In order to Preview using the Internet Explorer browser, please Install the following:</div>
 		<div id="gcfMissing" style="position:absolute;"></div>
-	</div>
-
-    <script>
-		function getUrlVars() {
-		    var vars = {};
-		    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-		    function(m,key,value) {
-		      vars[key] = value;
-		    });
-		    return vars;
-		  }
-		(function() {
-		  var fType = getUrlVars()["viewport"];  
-		  var line1 = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';  
-		  if(fType != 'false'){
-		  document.write(line1);
-		  }
-		}());
-	</script>
+	</div> 
     
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
