@@ -71,6 +71,8 @@ public class ViewerEntryPoint implements EntryPoint {
 		
 //		showBlackScreen(true);
 		
+		ViewerHtmlUtils.logExternalMessage("startup");
+		
 		//check if no Display ID 
 		if (RisePlayerController.getIsActive() &&  isDisplay() && !isEmbed() && DEMO_ID.equals(id)) {
 			if (claimId != null && !claimId.isEmpty()) {

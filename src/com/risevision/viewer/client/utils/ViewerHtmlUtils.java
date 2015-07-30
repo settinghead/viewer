@@ -367,5 +367,15 @@ public class ViewerHtmlUtils {
 	try {
 			$wnd.trackEvent(eventName, eventAction, eventLabel);
 		} catch (err) {}
+	}-*/;
+	
+	public static void logExternalMessage(String eventName) {
+		logExternalMessageNative(eventName, ViewerEntryPoint.getDisplayId(), Global.VIEWER_VERSION);
+	}
+	
+	private static native void logExternalMessageNative(String eventName, String displayId, String version) /*-{
+		try {	
+			$wnd.logExternal(eventName, displayId, version);
+		} catch (err) {}
 	}-*/;	
 }
