@@ -6,6 +6,7 @@ package com.risevision.viewer.client.channel;
 
 import com.google.gwt.user.client.Timer;
 import com.risevision.viewer.client.ViewerEntryPoint;
+import com.risevision.viewer.client.utils.ViewerHtmlUtils;
 import com.risevision.viewer.client.data.ViewerDataController;
 import com.risevision.viewer.client.info.Global;
 
@@ -53,6 +54,7 @@ public class ChannelTokenProvider {
 				// start 60 second timer for timeout of data retrieval
 				apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
 				
+                                ViewerHtmlUtils.logExternalMessage("channel token retrieval");
 				retrieveChannelTokenNative(url);
 
 			}
