@@ -54,7 +54,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				ViewerInstanceController.init();
 			}
 			
-			ViewerDataProvider.retrieveData();
+			ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.VIEWER_INIT.toString());
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				
 				pollingTimerActive = false;
 				
-				ViewerDataProvider.retrieveData();
+				ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.POLLING_TIMER.toString());
 			}
 		};
 		

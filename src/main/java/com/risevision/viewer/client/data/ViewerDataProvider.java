@@ -24,6 +24,9 @@ public class ViewerDataProvider {
 	private static final int CONTENT_STATE = 3;
 	
 	private static int state = IDLE_STATE;
+        public enum Reason {
+          RETRIEVAL_TIMEOUT, UPDATE_MESSAGE_RECEIVED, VIEWER_INIT, POLLING_TIMER
+        }
 	
 	private static Timer apiTimer = new Timer() {
 		@Override
@@ -44,7 +47,7 @@ public class ViewerDataProvider {
 				
 				state = IDLE_STATE;
 			
-				retrieveData();
+				retrieveData(Reason.RETRIEVAL_TIMEOUT.toString());
 			}
 			else {
 				state = IDLE_STATE;
@@ -52,7 +55,7 @@ public class ViewerDataProvider {
 		}
 	};
 	
-	public static void retrieveData() {
+	public static void retrieveData(String reason) {
 		if (state == IDLE_STATE) {
 			// [AD] moved this function to after the data is retrieved - workaround for Core bug 
 			// where the Viewer API and Channel Token calls can't be made at the same time 
@@ -88,7 +91,7 @@ public class ViewerDataProvider {
 	    	
 			// start 60 second timer for timeout of data retrieval
 			apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
-			
+                        ViewerHtmlUtils.logExternalMessage("viewer data retrieval", reason);
 			getDataNative(fullUrl);
 		}
 		else {
@@ -124,11 +127,13 @@ public class ViewerDataProvider {
 	    	    }
 	    	    catch (err) {
 	    	    	$wnd.writeToLog("Error Parsing Viewer Data - " + result + " - " + err.message);
+                        @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("viewer data parse error", result + " - " + err.message);
 	    	    }
 			}, "json");
 	    }
 	    catch (err) {
 	    	$wnd.writeToLog("Error Retrieving Viewer Data - " + url + " - " + err.message);
+                @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("viewer data retrieval error", url + " - " + err.message);
 	    }
 	}-*/;
 

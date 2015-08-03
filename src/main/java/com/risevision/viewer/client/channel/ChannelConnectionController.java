@@ -11,6 +11,7 @@ import com.risevision.viewer.client.ViewerEntryPoint;
 import com.risevision.viewer.client.data.ViewerDataController;
 import com.risevision.viewer.client.data.ViewerDataParser;
 import com.risevision.viewer.client.data.ViewerDataProvider;
+import com.risevision.viewer.client.utils.ViewerHtmlUtils;
 
 public class ChannelConnectionController extends ChannelConnectionProvider {
 	
@@ -67,6 +68,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	
 	// Static JS callback function
 	public static void setChannelMessage(String message) {
+		ViewerHtmlUtils.logExternalMessage("channel message", message);
 		if (message != null && !message.isEmpty() && state != INITIAL_STATE) {
 			if (message.equals(MESSAGE_CONNECT) || message.equals(MESSAGE_PING) /* || message.equals(MESSAGE_AYT) */ ) {
 				if (!message.equals(MESSAGE_CONNECT)	|| state != INACTIVE_STATE) {
@@ -94,7 +96,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			else if (message.startsWith(MESSAGE_UPDATED)) {
 				updateTicket = message.substring(MESSAGE_UPDATED.length()).trim();
 				
-				ViewerDataProvider.retrieveData();
+				ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.UPDATE_MESSAGE_RECEIVED.toString());
 				
 //				state = UPDATE_STATE;
 				state = ACTIVE_STATE;				
@@ -151,7 +153,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 				connectionVerificationTimer.cancel();
 			}
 			
-			connectChannel(REASON_ERROR);
+			connectChannel(REASON_ERROR + " " + code);
 				
 			if (channelCommand != null) {
 				channelCommand.execute();

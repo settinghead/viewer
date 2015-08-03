@@ -54,7 +54,7 @@ public class ChannelTokenProvider {
 				// start 60 second timer for timeout of data retrieval
 				apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
 				
-                                ViewerHtmlUtils.logExternalMessage("channel token retrieval");
+                                ViewerHtmlUtils.logExternalMessage("channel token retrieval", null);
 				retrieveChannelTokenNative(url);
 
 			}

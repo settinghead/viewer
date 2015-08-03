@@ -18,6 +18,7 @@
           "event": "",
           "display_id": "",
           "viewer_version": "",
+          "event_details": "",
           "ts": 0
         }
       }
@@ -27,7 +28,7 @@
   var EXTERNAL_LOGGER_REFRESH_DATE = 0;
   var EXTERNAL_LOGGER_TOKEN = "";
 
-  function logExternal(eventName, displayId, version) {
+  function logExternal(eventName, displayId, version, eventDetails) {
     if (!eventName) {return;}
 
     return refreshToken(insertWithToken);
@@ -53,6 +54,7 @@
       insertData.rows[0].json.event = eventName;
       insertData.rows[0].json.display_id = displayId;
       insertData.rows[0].json.viewer_version = version;
+      if (eventDetails) {insertData.rows[0].json.event_details = eventDetails;}
       insertData.rows[0].json.ts = new Date().toISOString();
 
       var xhr = new XMLHttpRequest();
