@@ -18,6 +18,9 @@
           "event": "",
           "display_id": "",
           "viewer_version": "",
+          "player_version": "",
+          "player_name": "",
+          "os": "",
           "ts": 0
         }
       }
@@ -27,7 +30,7 @@
   var EXTERNAL_LOGGER_REFRESH_DATE = 0;
   var EXTERNAL_LOGGER_TOKEN = "";
 
-  function logExternal(eventName, displayId, version) {
+  function logExternal(eventName, displayId, viewer_version, player_version, player_name, os) {
     if (!eventName) {return;}
 
     return refresh()
@@ -54,7 +57,10 @@
       insertData.rows[0].insertId = Math.random().toString(36).substr(2).toUpperCase();
       insertData.rows[0].json.event = eventName;
       insertData.rows[0].json.display_id = displayId;
-      insertData.rows[0].json.viewer_version = version;
+      insertData.rows[0].json.player_version = player_version;
+      insertData.rows[0].json.player_name = player_name;
+      insertData.rows[0].json.viewer_version = viewer_version;
+      insertData.rows[0].json.os = os;
       insertData.rows[0].json.ts = new Date().toISOString();
 
       var xhr = new XMLHttpRequest();

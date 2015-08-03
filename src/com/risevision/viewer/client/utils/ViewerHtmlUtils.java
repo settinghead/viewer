@@ -370,12 +370,22 @@ public class ViewerHtmlUtils {
 	}-*/;
 	
 	public static void logExternalMessage(String eventName) {
-		logExternalMessageNative(eventName, ViewerEntryPoint.getDisplayId(), Global.VIEWER_VERSION);
+          String pv = "";
+          String os = "";
+          String pn = "";
+          String[] sysInfoList = ViewerEntryPoint.getSysInfo().split("&");
+          for (String param : sysInfoList) {
+            if (param.startsWith("pv=")) {pv = param.split("=")[1];}
+            if (param.startsWith("os=")) {os = param.split("=")[1];}
+            if (param.startsWith("pn=")) {pn = param.split("=")[1];}
+          }
+
+          logExternalMessageNative(eventName, ViewerEntryPoint.getDisplayId(), Global.VIEWER_VERSION, pv, pn, os);
 	}
 	
-	private static native void logExternalMessageNative(String eventName, String displayId, String version) /*-{
+	private static native void logExternalMessageNative(String eventName, String displayId, String version, String pv, String pn, String os) /*-{
 		try {	
-			$wnd.logExternal(eventName, displayId, version);
+			$wnd.logExternal(eventName, displayId, version, pv, pn, os);
 		} catch (err) {}
 	}-*/;	
 }
