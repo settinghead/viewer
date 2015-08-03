@@ -30,11 +30,9 @@
   function logExternal(eventName, displayId, version) {
     if (!eventName) {return;}
 
-    return refresh()
-    .catch(function(err) {
-      parent.writeToLog("Error on external log " + err.message);
-    })
-    .then(function(refreshData) {
+    return refreshToken(insertWithToken);
+
+    function insertWithToken(refreshData) {
       var date = new Date(),
       year = date.getUTCFullYear(),
       month = date.getUTCMonth() + 1,
@@ -62,24 +60,22 @@
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.setRequestHeader("Authorization", "Bearer " + EXTERNAL_LOGGER_TOKEN);
       xhr.send(JSON.stringify(insertData));
-    });
-  };
+    }
+  }
 
-  function refresh() {
-    return new Promise(function(resolve, reject) {
-      if (new Date() - EXTERNAL_LOGGER_REFRESH_DATE < 3580000) {
-        return resolve({});
-      }
+  function refreshToken(cb) {
+    if (new Date() - EXTERNAL_LOGGER_REFRESH_DATE < 3580000) {
+      return cb({});
+    }
 
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "json";
-      xhr.open("POST", EXTERNAL_LOGGER_REFRESH_URL, true);
-      xhr.onloadend = function() {
-        resolve({token: xhr.response.access_token, refreshedAt: new Date()});
-      };
-      xhr.send();
-    });
-  };
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", EXTERNAL_LOGGER_REFRESH_URL, true);
+    xhr.onloadend = function() {
+      var resp = JSON.parse(xhr.response);
+      cb({token: resp.access_token, refreshedAt: new Date()});
+    };
+    xhr.send();
+  }
 
   window.logExternal = logExternal;
 }());
