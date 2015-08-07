@@ -4,21 +4,20 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  
   	<servlet>
 		<servlet-name>OfflineManifest</servlet-name>
 		<servlet-class>com.risevision.viewer.linker.ManifestServlet</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>OfflineManifest</servlet-name>
-		<url-pattern>/offline.manifest</url-pattern>
-	</servlet-mapping>
-  
   	<servlet>
 		<servlet-name>MakeRequest</servlet-name>
 		<servlet-class>com.risevision.viewer.server.MakeRequestServlet</servlet-class>
 	</servlet>
+	
 	<servlet-mapping>
+		<servlet-name>OfflineManifest</servlet-name>
+		<url-pattern>/offline.manifest</url-pattern>
+	</servlet-mapping>
+  		<servlet-mapping>
 		<servlet-name>MakeRequest</servlet-name>
 		<url-pattern>/gadgets/makeRequest</url-pattern>
 	</servlet-mapping>
@@ -27,5 +26,4 @@
 	<welcome-file-list>
 		<welcome-file>Viewer.html</welcome-file>
 	</welcome-file-list>
-
 </web-app>

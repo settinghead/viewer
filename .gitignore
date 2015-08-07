@@ -15,10 +15,6 @@ gwt-unitCache/
 # boilerplate generated classes #
 .apt_generated/
 
-# more caches and things from deploy #
-war/WEB-INF/deploy/
-war/WEB-INF/classes/
-
 #compilation logs
 .gwt/
 
@@ -31,9 +27,13 @@ www-test/
 #old GWT (1.5) created this dir
 .gwt-tmp/
 
-war/WEB-INF/lib/appengine-*.jar
-war/WEB-INF/lib/datanucleus-*.jar
-war/WEB-INF/lib/geronimo-*.jar
-war/WEB-INF/lib/gwt-servlet.jar
-war/WEB-INF/lib/jdo2-api-*.jar
-war/WEB-INF/lib/jsr*.jar
+#Eclipse
+.project
+.classpath
+.externalToolBuilders/
+
+#Maven generated files and directories
+target/
+src/main/webapp/WEB-INF/classes/
+src/main/webapp/viewer/
+bin/
