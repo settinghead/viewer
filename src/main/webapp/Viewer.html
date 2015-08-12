@@ -1,45 +1,72 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
-<html manifest="offline.manifest" >
-<!-- 	xmlns:fb="http://www.facebook.com/2008/fbml"> -->
+<html  manifest="offline.manifest" itemscope itemtype="http://schema.org/Product" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-<!--     <meta property="og:title" content="Rise Vision Viewer" /> -->
-<!-- 	<meta property="og:image" content="http://c558385.r85.cf2.rackcdn.com/rise-logo.png" /> -->
-<!-- 	<meta property="og:site_name" content="Rise Vision" /> -->
-<!-- 	<meta property="og:type" content="product" /> -->
-<!-- 	<meta property="og:description" content="This is a preview of a Rise Vision Presentation." /> -->
-	<meta name="google" content="notranslate" />
-<!-- 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/> -->
-  <script>
-    function getUrlVars() {
-      var vars = {};
-      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
-      function(m,key,value) {
-        vars[key] = value;
-      });
-      return vars;
-    }
-    (function() {
-      var line1 = '';
-      var w = getUrlVars()['vw'];
-      var h = getUrlVars()['vh'];
-      var viewportEnabled = getUrlVars()['viewport'];
-      if (viewportEnabled === 'false') {
-        line1 = '';
-      } else if (w && h) {
-        line1 = '<meta name="viewport" content="width=' + w +', height=' + h + '">'; 
-      } else {
-        line1 = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
-      }
-      document.write(line1);
-    }());
-  </script>
-
-  <title>Viewer</title>
+    <meta name="google" content="notranslate" />
     
-	<link type="text/css" rel="stylesheet" href="../style/viewer.css">
+    <link rel="icon" href="http://s3.amazonaws.com/Rise-Images/favicons/platform_favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="http://s3.amazonaws.com/Rise-Images/favicons/platform_favicon.ico" />
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/mfpgpdablffhbfofnhlpgmokokbahooi">
+
+    <link rel="canonical" href="http://preview.risevision.com/" itemprop="url">
+    <!-- *** RVA App Meta *** -->
+    <title itemprop='name'>Rise Vision | Digital Signage Network Management</title>
+    <meta name="description" content="Manage an Unlimited Number of Displays Anywhere in the World." />
+
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="Rise Vision">
+    <meta itemprop="description" content="Manage an Unlimited Number of Displays Anywhere in the World.">
+    <meta itemprop="image" content="https://s3.amazonaws.com/Rise-Images/landing-page/rv-image.png">
+    <link rel="publisher" href="https://plus.google.com/+Risevision/">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@RiseVision">
+    <meta name="twitter:domain" content="http://preview.risevision.com/">
+    <meta name="twitter:title" content="Rise Vision">
+    <meta name="twitter:description" content="Manage an Unlimited Number of Displays Anywhere in the World.">
+    <meta name="twitter:image:src" content="https://s3.amazonaws.com/Rise-Images/landing-page/rv-image.png">
+    <meta name="twitter:url" content="http://preview.risevision.com/" />
+
+    <!-- Open Graph data -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Rise Vision" />
+    <meta property="og:type" content="product" />
+    <meta property="og:url" content="http://preview.risevision.com/" />
+    <meta property="og:image" content="https://s3.amazonaws.com/Rise-Images/landing-page/rv-image.png" />
+    <meta property="og:description" content="Manage an Unlimited Number of Displays Anywhere in the World." />
+    <meta property="article:publisher" content="https://www.facebook.com/risevision">
+    <meta property="fb:admins" content="621077157">
+    <meta property="og:site_name" content="Rise Vision">
+
+    <script>
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,    
+        function(m,key,value) {
+          vars[key] = value;
+        });
+        return vars;
+      }
+      (function() {
+        var line1 = '';
+        var w = getUrlVars()['vw'];
+        var h = getUrlVars()['vh'];
+        var viewportEnabled = getUrlVars()['viewport'];
+        if (viewportEnabled === 'false') {
+          line1 = '';
+        } else if (w && h) {
+          line1 = '<meta name="viewport" content="width=' + w +', height=' + h + '">'; 
+        } else {
+          line1 = '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">';
+        }
+        document.write(line1);
+      }());
+    </script>
+      
+  	<link type="text/css" rel="stylesheet" href="../style/viewer.css">
   </head>
  
   <body style="height: 100%; margin: 0; overflow: hidden;">
