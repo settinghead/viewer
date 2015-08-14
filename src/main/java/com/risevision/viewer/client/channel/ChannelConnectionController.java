@@ -18,6 +18,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	private static final int INITIAL_STATE = 0;
 	private static final int INACTIVE_STATE = 1;
 	private static final int ACTIVE_STATE = 2;
+	private static final int RECONNECT_DELAY = 60 * 1000 * 5;
 //	private static final int UPDATE_STATE = 3;
 //	private static final int CLOSED_STATE = 4;
 	
@@ -25,7 +26,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	private static final String REASON_NEW_TOKEN = "newtoken";
 	private static final String REASON_NOPING = "noping";
 	private static final String REASON_ERROR = "error";
-//	private static final String REASON_RECONNECT = "reconnect";
+	private static final String REASON_RECONNECT = "reconnect";
 		
 	private static Command channelCommand;
 	private static int state = INITIAL_STATE;
@@ -40,6 +41,16 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			}
 			
 			connectChannel(REASON_NOPING);	
+		}
+	};
+
+	private static Timer reconnectTimer = new Timer() {
+		public void run() {
+			if (channelCommand != null) {
+				channelCommand.execute();
+			}
+			
+			connectChannel(REASON_RECONNECT);	
 		}
 	};
 	
@@ -111,9 +122,9 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 //				connectionCancelled();
 //			}
 			else if (message.equals(MESSAGE_AYT)) {
-				state = INACTIVE_STATE;
+				//state = INACTIVE_STATE;
 				
-				connectChannel(MESSAGE_AYT);
+				//connectChannel(MESSAGE_AYT);
 			}
 //			else if (message.equals(CONNECTION_FAILED)) {
 //				connectionCancelled();
@@ -153,7 +164,8 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 				connectionVerificationTimer.cancel();
 			}
 			
-			connectChannel(REASON_ERROR + " " + code);
+                        ViewerHtmlUtils.logExternalMessage("reconnect timer", REASON_ERROR + " " + code);
+                        reconnectTimer.schedule(RECONNECT_DELAY);
 				
 			if (channelCommand != null) {
 				channelCommand.execute();
