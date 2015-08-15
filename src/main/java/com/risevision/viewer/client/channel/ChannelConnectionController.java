@@ -51,6 +51,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			}
 			
 			connectChannel(REASON_RECONNECT);	
+                        ViewerDataController.resetPolling();
 		}
 	};
 	
@@ -158,14 +159,14 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	public static void setChannelError(int code) {
 		if (state != INITIAL_STATE) {
 			state = INACTIVE_STATE;
-			
+
 			if (code == 401) {
 				channelToken = "";
 				connectionVerificationTimer.cancel();
 			}
 			
                         ViewerHtmlUtils.logExternalMessage("reconnect timer", REASON_ERROR + " " + code);
-                        reconnectTimer.schedule(RECONNECT_DELAY);
+                        reconnectTimer.schedule(RECONNECT_DELAY + (int)(Math.random() * RECONNECT_DELAY));
 				
 			if (channelCommand != null) {
 				channelCommand.execute();
