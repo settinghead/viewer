@@ -111,13 +111,11 @@ public abstract class ChannelConnectionProvider {
 	
 		    	state = WAITING_STATE;
 		    	
-				// start 60 second timer for timeout of data retrieval
-				apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
-				
                                 ViewerHtmlUtils.logExternalMessage("channel creation", reason + " - " + (delay / 1000) + "s delay");
 				destroyChannelNative();
 				new Timer() {
                                   public void run() {
+                                    apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
                                     createChannelNative(html);
                                   }
                                 }.schedule(delay);
