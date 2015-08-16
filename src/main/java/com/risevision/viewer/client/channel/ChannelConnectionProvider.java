@@ -94,7 +94,7 @@ public abstract class ChannelConnectionProvider {
 			if (state == WAITING_STATE) {
 				state = IDLE_STATE;
 			
-				createChannel(REASON_RECONNECT);
+				createChannel(REASON_RECONNECT, 0);
 			}
 			else {
 				state = IDLE_STATE;
@@ -102,23 +102,25 @@ public abstract class ChannelConnectionProvider {
 		}
 	};
 	
-	protected static void createChannel(String reason) {
+	protected static void createChannel(String reason, int delay) {
 		// Token should never be null or empty
 		if (!RiseUtils.strIsNullOrEmpty(channelToken)) {
 
 			if (state == IDLE_STATE) {
-				String html = HTML_STRING;
-				html = html.replace("%reason%", reason);
-				html = html.replace("%token%", channelToken);
+				final String html = HTML_STRING.replace("%reason%", reason).replace("%token%", channelToken);
 	
 		    	state = WAITING_STATE;
 		    	
 				// start 60 second timer for timeout of data retrieval
 				apiTimer.schedule(ViewerDataController.MINUTE_UPDATE_INTERVAL);
 				
-                                ViewerHtmlUtils.logExternalMessage("channel creation", reason);
+                                ViewerHtmlUtils.logExternalMessage("channel creation", reason + " - " + (delay / 1000) + "s delay");
 				destroyChannelNative();
-				createChannelNative(html);
+				new Timer() {
+                                  public void run() {
+                                    createChannelNative(html);
+                                  }
+                                }.schedule(delay);
 			}
 			else {
 				state = WAITING_STATE;

@@ -40,21 +40,10 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 				channelCommand.execute();
 			}
 			
-			connectChannel(REASON_NOPING);	
+			connectChannel(REASON_NOPING, RECONNECT_DELAY);	
 		}
 	};
 
-	private static Timer reconnectTimer = new Timer() {
-		public void run() {
-			if (channelCommand != null) {
-				channelCommand.execute();
-			}
-			
-			connectChannel(REASON_RECONNECT);	
-                        ViewerDataController.resetPolling();
-		}
-	};
-	
 	public static void init(Command newChannelCommand) {
 		if (state == INITIAL_STATE) {
 			channelCommand = newChannelCommand;
@@ -62,7 +51,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			if (ViewerEntryPoint.isDisplay() && !ViewerEntryPoint.isEmbed()) {
 				state = INACTIVE_STATE;
 				
-				connectChannel(REASON_NEW);
+				connectChannel(REASON_NEW, 0);
 			}
 		}
 	}
@@ -74,7 +63,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			connectionCancelled();
 		}
 		else if (state == INACTIVE_STATE) {
-			connectChannel(REASON_NEW_TOKEN);
+			connectChannel(REASON_NEW_TOKEN, 0);
 		}
 	}
 	
@@ -166,7 +155,8 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 			}
 			
                         ViewerHtmlUtils.logExternalMessage("reconnect timer", REASON_ERROR + " " + code);
-                        reconnectTimer.schedule(RECONNECT_DELAY + (int)(Math.random() * RECONNECT_DELAY));
+			connectChannel(REASON_RECONNECT, RECONNECT_DELAY + (int)(Math.random() * RECONNECT_DELAY));	
+                        ViewerDataController.resetPolling();
 				
 			if (channelCommand != null) {
 				channelCommand.execute();
@@ -174,12 +164,12 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 		}
 	}
 	
-	private static void connectChannel(String reason) {
+	private static void connectChannel(String reason, int delay) {
 		if (ViewerEntryPoint.isDisplay() && !ViewerEntryPoint.isEmbed() 
 				&& state == INACTIVE_STATE) {
 			// Token should never be null or empty
 			if (!RiseUtils.strIsNullOrEmpty(channelToken)) {
-				createChannel(reason);
+				createChannel(reason, delay);
 			}
 			else {
 				ChannelTokenProvider.retrieveToken();
