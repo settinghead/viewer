@@ -38,7 +38,7 @@
       year = date.getUTCFullYear(),
       month = date.getUTCMonth() + 1,
       day = date.getUTCDate(),
-      insertData = EXTERNAL_LOGGER_INSERT_SCHEMA,
+      insertData = JSON.parse(JSON.stringify(EXTERNAL_LOGGER_INSERT_SCHEMA)),
       serviceUrl;
 
       if (month < 10) {month = "0" + month;}
