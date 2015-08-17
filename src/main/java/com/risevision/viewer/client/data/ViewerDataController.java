@@ -54,7 +54,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				ViewerInstanceController.init();
 			}
 			
-			ViewerDataProvider.retrieveData();
+			ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.VIEWER_INIT.toString());
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				
 				pollingTimerActive = false;
 				
-				ViewerDataProvider.retrieveData();
+				ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.POLLING_TIMER.toString());
 			}
 		};
 		
@@ -234,6 +234,11 @@ public class ViewerDataController extends ViewerDataControllerBase {
 			pollingTimer.schedule(interval * MINUTE_UPDATE_INTERVAL);
 		}
 	}
+
+        public static void resetPolling() {
+          int interval = ViewerDataParser.getInstance().getPollInterval();
+          pollingTimer.schedule(interval * MINUTE_UPDATE_INTERVAL);
+        }
 	
 	private static void stopPolling() {
 		pollingTimerActive = false;

@@ -369,13 +369,13 @@ public class ViewerHtmlUtils {
 		} catch (err) {}
 	}-*/;
 	
-	public static void logExternalMessage(String eventName) {
-		logExternalMessageNative(eventName, ViewerEntryPoint.getDisplayId(), Global.VIEWER_VERSION);
+	public static void logExternalMessage(String eventName, String eventDetails) {
+		logExternalMessageNative(eventName, ViewerEntryPoint.getDisplayId(), Global.VIEWER_VERSION, eventDetails);
 	}
 	
-	private static native void logExternalMessageNative(String eventName, String displayId, String version) /*-{
+	private static native void logExternalMessageNative(String eventName, String displayId, String version, String eventDetails) /*-{
 		try {	
-			$wnd.logExternal(eventName, displayId, version);
+			$wnd.logExternal(eventName, displayId, version, eventDetails);
 		} catch (err) {}
 	}-*/;	
 }
