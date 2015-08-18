@@ -25,7 +25,7 @@ public class ViewerDataProvider {
 	
 	private static int state = IDLE_STATE;
         public enum Reason {
-          RETRIEVAL_TIMEOUT, UPDATE_MESSAGE_RECEIVED, VIEWER_INIT, POLLING_TIMER
+          RETRIEVAL_TIMEOUT, UPDATE_MESSAGE_RECEIVED, VIEWER_INIT, POLLING_TIMER, NO_CACHE, AFTER_CACHE
         }
 	
 	private static Timer apiTimer = new Timer() {
@@ -99,11 +99,38 @@ public class ViewerDataProvider {
 		}
 	}
 	
-	private static void reportDataReady(JavaScriptObject jso) {
-		state = ACTIVE_STATE;
-		
-		ViewerDataController.reportDataReady(jso);
+	private static void reportDataReady(JavaScriptObject jso, boolean cached) {
+                if (cached) {
+                  if (jso == null) {
+                    retrieveData(Reason.NO_CACHE.toString());
+                    return;
+                  }
+
+                  new Timer() {
+                    @Override
+                    public void run() {
+                      retrieveData(Reason.AFTER_CACHE.toString());
+                    }
+                  }.schedule((int)(3.5 * ViewerDataController.MINUTE_UPDATE_INTERVAL));
+
+                  ViewerHtmlUtils.logExternalMessage("api call scheduled", "delay - " + (int)(3.5 * ViewerDataController.MINUTE_UPDATE_INTERVAL));
+                } else {
+                  state = ACTIVE_STATE;
+                  ChannelConnectionController.init(ViewerDataController.channelCommand);
+                }
+
+		ViewerDataController.reportDataReady(jso, cached);
 	}
+
+        public static native void getPreviouslySavedDataNative() /*-{
+          try {
+            $wnd.writeToLog("Inspecting previously saved data");
+	    @com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)($wnd.retreiveViewerResponse(), true);
+          } catch (err) {
+            $wnd.writeToLog("Error Retrieving Saved Data - " + err.message);
+            @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("saved data retrieval error", err.message);
+          }
+        }-*/;
 
 	private static native void getDataNative(String url) /*-{
 //		$wnd.startJSONCall(url);
@@ -121,7 +148,7 @@ public class ViewerDataProvider {
 	    	    
 		        	$wnd.writeToLog("Viewer Data - Status Message - " + result.status.message);
 	    	    	
-	    	    	@com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;)(result);
+	    	    	@com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)(result, false);
 	    	    	
 		    		//reportDataReady(result);
 	    	    }

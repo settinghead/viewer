@@ -154,7 +154,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 				connectionVerificationTimer.cancel();
 			}
 			
-                        ViewerHtmlUtils.logExternalMessage("reconnect timer", REASON_ERROR + " " + code);
+                        ViewerHtmlUtils.logExternalMessage("channel error", String.valueOf(code));
 			connectChannel(REASON_RECONNECT, RECONNECT_DELAY + (int)(Math.random() * RECONNECT_DELAY));	
                         ViewerDataController.resetPolling();
 				

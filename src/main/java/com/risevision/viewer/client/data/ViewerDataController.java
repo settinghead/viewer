@@ -33,7 +33,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 	
 	public static int MINUTE_UPDATE_INTERVAL = 60 * 1000;
 
-	private static Command channelCommand;
+	public static Command channelCommand;
 	
 	public static void init(Command newDataReadyCommand, String type, String id) {
 		dataReadyCommand = newDataReadyCommand;
@@ -54,7 +54,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				ViewerInstanceController.init();
 			}
 			
-			ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.VIEWER_INIT.toString());
+			ViewerDataProvider.getPreviouslySavedDataNative();
 		}
 	}
 	
@@ -114,7 +114,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 		reportDataReady(jso, false);
 	}
 	
-	private static void reportDataReady(JavaScriptObject jso, boolean cached) {
+	public static void reportDataReady(JavaScriptObject jso, boolean cached) {
 		JSOModel jsoModel = (JSOModel) jso;
 
 		ViewerDataInfo newViewerData = dataParser.populateDataProvider(jsoModel);
@@ -141,10 +141,6 @@ public class ViewerDataController extends ViewerDataControllerBase {
 		case ViewerStatus.OK:
 //			state = CONTENT_STATE;
 
-			if (!ViewerEntryPoint.isEmbed()) {
-				ChannelConnectionController.init(channelCommand);
-			}
-			
 			if (!ViewerHtmlUtils.isChrome() && ViewerEntryPoint.isPreview() && ViewerEntryPoint.getShowUi()) {
 				ViewerNotificationsPanel.getInstance().show(NotificationType.use_google_chrome);
 			}
