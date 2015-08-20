@@ -43,7 +43,7 @@ public abstract class ChannelConnectionProvider {
 			"}\n" +
 			"function onError(error) {\n" +
 			"	parent.writeToLog('Channel error:' + error.description + ' code=' + error.code);\n" +
-			"	parent.channelError(error.code);\n" +
+			"	parent.channelError(error.code, error.description);\n" +
 			"}\n" +
 			"function onClose() {\n" +
 			"	parent.writeToLog('Channel closed, attempting to reconnect.');\n" +
