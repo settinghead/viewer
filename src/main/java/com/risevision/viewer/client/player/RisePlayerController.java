@@ -8,6 +8,7 @@ import java.util.Date;
 
 import com.google.gwt.user.client.Timer;
 import com.risevision.viewer.client.info.ViewerPlayerInfo;
+import com.risevision.viewer.client.utils.ViewerHtmlUtils;
 
 public class RisePlayerController {
 	private static boolean isActive = false; 
@@ -68,6 +69,14 @@ public class RisePlayerController {
 					"&" + paramOrientation + "=" + playerInfo.getOrientation() +
 					"&" + getTimestampParam();
 			
+                        try {
+                          String command = "";
+                          if (playerInfo.getUpdateRequired() == "true") {command = "update required";}
+                          if (playerInfo.getRebootRequired() == "true") {command = "reboot required";}
+                          if (playerInfo.getRestartRequired() == "true") {command = "restart required";}
+                          if (command != "") {ViewerHtmlUtils.logExternalMessage("player command", command);}
+                        } catch(Exception e) {}
+
 			callUrlNative(url, cmdSetProperty);
 		}
 	}
