@@ -145,7 +145,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	}
 	
 	// Static JS callback function
-	public static void setChannelError(int code) {
+	public static void setChannelError(int code, String description) {
 		if (state != INITIAL_STATE) {
 			state = INACTIVE_STATE;
 
@@ -154,7 +154,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 				connectionVerificationTimer.cancel();
 			}
 			
-                        ViewerHtmlUtils.logExternalMessage("channel error", String.valueOf(code));
+                        ViewerHtmlUtils.logExternalMessage("channel error", String.valueOf(code) + " / " + description);
 			connectChannel(REASON_RECONNECT, RECONNECT_DELAY + (int)(Math.random() * RECONNECT_DELAY));	
                         ViewerDataController.resetPolling();
 				

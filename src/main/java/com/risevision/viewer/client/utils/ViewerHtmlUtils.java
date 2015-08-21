@@ -183,7 +183,7 @@ public class ViewerHtmlUtils {
 		$entry(@com.risevision.viewer.client.channel.ChannelConnectionController::setChannelMessage(Ljava/lang/String;));
 		
 		$wnd.channelError = 
-		$entry(@com.risevision.viewer.client.channel.ChannelConnectionController::setChannelError(I));
+		$entry(@com.risevision.viewer.client.channel.ChannelConnectionController::setChannelError(ILjava/lang/String;));
 	}-*/;
 
 	public static native void playCommand(String presFrame, String htmlName, boolean show) /*-{
