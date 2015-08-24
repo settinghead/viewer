@@ -25,7 +25,7 @@ public class ViewerDataProvider {
 	
 	private static int state = IDLE_STATE;
         public enum Reason {
-          RETRIEVAL_TIMEOUT, UPDATE_MESSAGE_RECEIVED, VIEWER_INIT, POLLING_TIMER, NO_CACHE, AFTER_CACHE
+          RETRIEVAL_TIMEOUT, UPDATE_MESSAGE_RECEIVED, VIEWER_INIT, POLLING_TIMER, NO_CACHE, AFTER_CACHE, PREVIEW
         }
 	
 	private static Timer apiTimer = new Timer() {
@@ -122,10 +122,25 @@ public class ViewerDataProvider {
 		ViewerDataController.reportDataReady(jso, cached);
 	}
 
-        public static native void getPreviouslySavedDataNative() /*-{
+        public static native void getPreviouslySavedDataNative(String displayId) /*-{
           try {
             $wnd.writeToLog("Inspecting previously saved data");
-	    @com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)($wnd.retreiveViewerResponse(), true);
+            var data = $wnd.retreiveViewerResponse();
+            if (data && data.display) {
+              if (data.display.id !== displayId) {
+                @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("api cache clear", "different display id " + data.display.id);
+                data = null
+              };
+            }
+            if (data && data.player) {
+              if (data.player.restartRequired === "true" || data.player.restartRequired === true ||
+              data.player.updateRequired === "true" || data.player.updateRequired === true ||
+              data.player.rebootRequired === "true" || data.player.rebootRequired === true) {
+                data = null;
+                @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("api cache clear", "reboot/restart/update" );
+              }
+            }  
+	    @com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)(data, true);
           } catch (err) {
             $wnd.writeToLog("Error Retrieving Saved Data - " + err.message);
             @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("saved data retrieval error", err.message);
@@ -142,7 +157,11 @@ public class ViewerDataProvider {
 	    	    try { 
 	    	    	if (url.indexOf("display") != -1 && $wnd.supportsHtml5Storage()) {
 	    	    		if (result && result.content) {
-	    	    			$wnd.storeViewerResponse(result);
+                                        var idMatch = /display\/([0-9A-Za-z-]+)/.exec(url);
+                                        if (idMatch && result.display) {
+                                          result.display.id = idMatch[1];
+	    	    			  $wnd.storeViewerResponse(result);
+                                        }
 	    	    		}
 	    	    	}
 	    	    

@@ -52,9 +52,10 @@ public class ViewerDataController extends ViewerDataControllerBase {
 			
 			if (ViewerEntryPoint.isDisplay() && !ViewerEntryPoint.isEmbed()) {
 				ViewerInstanceController.init();
-			}
+                        }
+
+                        ViewerDataProvider.getPreviouslySavedDataNative(ViewerEntryPoint.getId());
 			
-			ViewerDataProvider.getPreviouslySavedDataNative();
 		}
 	}
 	
