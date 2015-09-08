@@ -99,53 +99,11 @@ public class ViewerDataProvider {
 		}
 	}
 	
-	private static void reportDataReady(JavaScriptObject jso, boolean cached) {
-                if (cached) {
-                  if (jso == null) {
-                    retrieveData(Reason.NO_CACHE.toString());
-                    return;
-                  }
-
-                  new Timer() {
-                    @Override
-                    public void run() {
-                      retrieveData(Reason.AFTER_CACHE.toString());
-                    }
-                  }.schedule((int)(3.5 * ViewerDataController.MINUTE_UPDATE_INTERVAL));
-
-                  ViewerHtmlUtils.logExternalMessage("api call scheduled", "delay - " + (int)(3.5 * ViewerDataController.MINUTE_UPDATE_INTERVAL));
-                } else {
-                  state = ACTIVE_STATE;
-                  ChannelConnectionController.init(ViewerDataController.channelCommand);
-                }
-
-		ViewerDataController.reportDataReady(jso, cached);
+	private static void reportDataReady(JavaScriptObject jso) {
+          state = ACTIVE_STATE;
+          ChannelConnectionController.init(ViewerDataController.channelCommand);
+          ViewerDataController.reportDataReady(jso);
 	}
-
-        public static native void getPreviouslySavedDataNative(String displayId) /*-{
-          try {
-            $wnd.writeToLog("Inspecting previously saved data");
-            var data = $wnd.retreiveViewerResponse();
-            if (data && data.display) {
-              if (data.display.id !== displayId) {
-                @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("api cache clear", "different display id " + data.display.id);
-                data = null
-              };
-            }
-            if (data && data.player) {
-              if (data.player.restartRequired === "true" || data.player.restartRequired === true ||
-              data.player.updateRequired === "true" || data.player.updateRequired === true ||
-              data.player.rebootRequired === "true" || data.player.rebootRequired === true) {
-                data = null;
-                @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("api cache clear", "reboot/restart/update" );
-              }
-            }  
-	    @com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)(data, true);
-          } catch (err) {
-            $wnd.writeToLog("Error Retrieving Saved Data - " + err.message);
-            @com.risevision.viewer.client.utils.ViewerHtmlUtils::logExternalMessage(Ljava/lang/String;Ljava/lang/String;)("saved data retrieval error", err.message);
-          }
-        }-*/;
 
 	private static native void getDataNative(String url) /*-{
 //		$wnd.startJSONCall(url);
@@ -167,9 +125,7 @@ public class ViewerDataProvider {
 	    	    
 		        	$wnd.writeToLog("Viewer Data - Status Message - " + result.status.message);
 	    	    	
-	    	    	@com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;Z)(result, false);
-	    	    	
-		    		//reportDataReady(result);
+	    	    	@com.risevision.viewer.client.data.ViewerDataProvider::reportDataReady(Lcom/google/gwt/core/client/JavaScriptObject;)(result);
 	    	    }
 	    	    catch (err) {
 	    	    	$wnd.writeToLog("Error Parsing Viewer Data - " + result + " - " + err.message);
