@@ -54,7 +54,7 @@ public class ViewerDataController extends ViewerDataControllerBase {
 				ViewerInstanceController.init();
                         }
 
-                        ViewerDataProvider.getPreviouslySavedDataNative(ViewerEntryPoint.getId());
+			ViewerDataProvider.retrieveData(ViewerDataProvider.Reason.VIEWER_INIT.toString());
 			
 		}
 	}
