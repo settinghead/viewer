@@ -31,9 +31,11 @@ www-test/
 .project
 .classpath
 .externalToolBuilders/
+.settings/
 
 #Maven generated files and directories
 target/
+src/main/java/META-INF/persistence.xml
 src/main/webapp/WEB-INF/classes/
 src/main/webapp/viewer/
 bin/
