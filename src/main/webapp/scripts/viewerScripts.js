@@ -269,6 +269,7 @@ function createPresentation(frameName, containerName, width, height, top, left, 
                     document.getElementById(containerName).appendChild(myDiv);
                     document.getElementById(frameName).appendChild(myFrame);
                     
+                    html = stripMetaRefresh(html);
                     populateIframe('iFrame_' + frameName, html);
                 }
             }
@@ -287,6 +288,12 @@ function createPresentation(frameName, containerName, width, height, top, left, 
     catch (err) {
     	writeToLog("createPresentation - " + frameName + " - " + err.message);
     }
+}
+
+function stripMetaRefresh(html) {
+  html = html.replace("meta http-equiv=\"refresh\"", "meta http-equiv=\"strippedrefresh\"");
+  html = html.replace("meta http-equiv='refresh'", "meta http-equiv='strippedrefresh'");
+  return html;
 }
 
 function populateIframe(frameName, html) {
