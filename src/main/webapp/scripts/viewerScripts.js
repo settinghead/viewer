@@ -291,8 +291,7 @@ function createPresentation(frameName, containerName, width, height, top, left, 
 }
 
 function stripMetaRefresh(html) {
-  html = html.replace("meta http-equiv=\"refresh\"", "meta http-equiv=\"strippedrefresh\"");
-  html = html.replace("meta http-equiv='refresh'", "meta http-equiv='strippedrefresh'");
+  html = html.replace(/meta[ ]+http-equiv=.refresh./gi, 'meta http-equiv="strippedrefresh"');
   return html;
 }
 
