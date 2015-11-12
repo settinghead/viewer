@@ -101,7 +101,7 @@ public class ViewerDataProvider {
 	
 	private static void reportDataReady(JavaScriptObject jso) {
           state = ACTIVE_STATE;
-          ChannelConnectionController.init(ViewerDataController.channelCommand);
+          //ChannelConnectionController.init(ViewerDataController.channelCommand);
           ViewerDataController.reportDataReady(jso);
 	}
 
