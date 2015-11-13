@@ -156,7 +156,7 @@ public class ViewerEntryPoint implements EntryPoint {
 //				}
 				
 				// init Analytics for Displays and Preview
-				//ViewerHtmlUtils.initAnalytics();
+				ViewerHtmlUtils.initAnalytics();
 
 				if (isPreview()) {
 					if (showUi) {
