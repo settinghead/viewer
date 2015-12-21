@@ -254,12 +254,13 @@ public class MakeRequestServlet extends HttpServlet {
 				}
 			}
 		}
-		
-		header = new String(Arrays.copyOfRange(bytes, start, end));
-		if (header.contains("?xml")) {
-			return HtmlParser.getPropertyValue(header, "encoding");
-		}
 
+		if (start != -1 && end != -1) {
+			header = new String(Arrays.copyOfRange(bytes, start, end));
+			if (header.contains("?xml")) {
+				return HtmlParser.getPropertyValue(header, "encoding");
+			}
+		}
 		return "";
 	}
 	
