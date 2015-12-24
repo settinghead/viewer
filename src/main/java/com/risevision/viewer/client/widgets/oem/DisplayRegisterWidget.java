@@ -38,8 +38,8 @@ public class DisplayRegisterWidget extends DisplayRegisterBaseWidget {
 	private HorizontalPanel hpButtons2 = new HorizontalPanel();
 
 //	private Label DisplayIdLabel = new Label("Display ID =");
-	private Anchor infoLink = new Anchor("http://help.risevision.com/#/user/player/register-player");
-//	private HTML DisplayIdError = new HTML("Visit <a href='' onclick='return false;'>http://help.risevision.com/#/user/player/register-player</a> for more details.");
+	private Anchor infoLink = new Anchor("https://help.risevision.com/user/create-a-display");
+//	private HTML DisplayIdError = new HTML("Visit <a href='' onclick='return false;'>https://help.risevision.com/user/create-a-display</a> for more details.");
 	private FlowPanel infoPanel = new FlowPanel();
 	
 	private Button btEnterDisplayId = new DisplayRegisterButtonWidget("Enter Display ID");
