@@ -434,14 +434,14 @@ public class ViewerPlaceholderController {
 			currentItem = nextItem;
 //			isPlaying = true;
 
-			if (gadgets.size() != 1) {
+//			if (gadgets.size() != 1) {
 				if (!gadgets.get(currentItem).getItem().isPlayUntilDone()) {
 					int duration = RiseUtils.strToInt(gadgets.get(currentItem).getItem().getDuration(), 0);
 					// Schedule the timer to run once in x seconds.
 					setNextItemCheck(duration);
 //					itemTimer.schedule(duration * 1000);
 				}
-			}
+//			}
 //			else if (gadgets.size() == 1 && gadgets.get(currentItem).getItem().isPlayUntilDone()) {
 //				gadgets.get(currentItem).stop();
 //				gadgets.get(currentItem).play();

@@ -30,7 +30,7 @@ public class ViewerScheduleController {
 	private ScheduleInfo schedule;
 	private ArrayList<PlaylistItemInfo> items = new ArrayList<PlaylistItemInfo>();
 	private ArrayList<ViewerPresentationController> presentations = new ArrayList<ViewerPresentationController>();
-	private int currentItem = -1, nextItem = -1, lastItem;
+	private int currentItem = -1, nextItem = -1, lastItem = -1;
 	private boolean scheduleReady = false;
 	private Command scheduleReadyCommand;
 	private boolean doneReceived = false;
@@ -140,7 +140,7 @@ public class ViewerScheduleController {
 			scheduleReadyCommand.execute();
 		}
 		else if (presentations.size() == 1 && ViewerEntryPoint.isShowingProgressBar() && !ViewerEntryPoint.isEmbed()) {
-			timerController.startTimer();
+//			timerController.startTimer();
 			play();
 		}
 	}
@@ -177,7 +177,7 @@ public class ViewerScheduleController {
 			// and the screen will go black
 			boolean allReady = true;
 			for (int i = 0; i < presentations.size(); i++) {
-				if (presentations.get(i).getStatus() == ViewerPresentationController.ALL_READY_STATUS) {
+				if (presentations.get(i).isReady()) {
 					// [AD] - Added extra check for item.canPlay() or else the ready command is called and 
 					// no items would be ready
 					if (!ViewerEntryPoint.isDisplay() || items.get(i).getTimeline().canPlay()) {
@@ -198,10 +198,27 @@ public class ViewerScheduleController {
 				scheduleReadyCommand.execute();
 			}
 		}
-		else if (playing && currentItem != -1) {
-			ViewerEntryPoint.showBlackScreen(false);
+//		else if (playing && currentItem != -1) {
+//			ViewerEntryPoint.showBlackScreen(false);
+//
+//			presentations.get(currentItem).play();
+//		}
 
-			presentations.get(currentItem).play();
+		// if lastItem == -1 then we haven't played through any
+		if (playing && lastItem == -1) {
+			
+			if (currentItem != -1 && presentations.get(currentItem).isReady()) {
+				ViewerEntryPoint.showBlackScreen(false);
+
+//				nextItem = currentItem;
+				presentations.get(currentItem).play();
+				lastItem = currentItem;
+			}
+			else if (currentItem == -1) {
+				setNextItemCheck(-1);
+				
+				playNextItem();
+			}
 		}
 	}
 	
@@ -221,10 +238,14 @@ public class ViewerScheduleController {
 				logger.log(Level.WARNING, "Done received multiple times!"); 
 			}
 		}
-		else if (playing && currentItem != -1) {
+		else if (playing && currentItem != -1 && !items.get(currentItem).isPlayUntilDone() && 
+			lastItem == currentItem) {
 			ViewerEntryPoint.showBlackScreen(false);
 
 			presentations.get(currentItem).play();
+		}
+		else {
+			playNextItem();
 		}
 	}
 	
@@ -354,12 +375,29 @@ public class ViewerScheduleController {
 				playNextItem();
 			}
 		}
-		else if (presentations.get(nextItem).getStatus() != ViewerPresentationController.ALL_READY_STATUS && presentations.size() != 1) {
-//			playNextItem();
-			
-			int duration = RiseUtils.strToInt(items.get(nextItem).getDuration(), 0);
-			// Schedule the timer to run again in x seconds.
-			setNextItemCheck(duration);
+		else if (!presentations.get(nextItem).isReady() && items.get(nextItem).isPlayUntilDone()) {
+			// if the item is PUD but not ready, skip it
+			if (currentItem == nextItem) {
+				nextItem = -1;
+				currentItem = -1;
+				
+				setNextItemCheck(60);
+			}
+			else if (presentations.size() != 1) {
+				playNextItem();
+			}
+			else {
+				currentItem = nextItem;
+			}
+		}
+		else if (!presentations.get(nextItem).isReady()) {
+			if (presentations.size() != 1) {
+//				playNextItem();
+				
+				int duration = RiseUtils.strToInt(items.get(nextItem).getDuration(), 0);
+				// Schedule the timer to run again in x seconds.
+				setNextItemCheck(duration);
+			}
 			
 			currentItem = nextItem;
 		}
@@ -372,12 +410,14 @@ public class ViewerScheduleController {
 			// in the timer controller
 			timerController.stopPropagation();
 			
-			if (presentations.size() != 1) {
-				int duration = RiseUtils.strToInt(items.get(currentItem).getDuration(), 0);
-				// Schedule the timer to run again in x seconds.
-				setNextItemCheck(duration);
-//				itemTimer.schedule(duration * 1000);
-			}
+//			if (presentations.size() != 1) {
+				if (!items.get(currentItem).isPlayUntilDone()) {
+					int duration = RiseUtils.strToInt(items.get(currentItem).getDuration(), 0);
+					// Schedule the timer to run again in x seconds.
+					setNextItemCheck(duration);
+	//				itemTimer.schedule(duration * 1000);
+				}
+//			}
 			
 			presentations.get(currentItem).play();
 			if (lastItem != -1 && currentItem != lastItem && presentations.get(lastItem) != presentations.get(currentItem)){
