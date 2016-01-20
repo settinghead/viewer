@@ -14,7 +14,7 @@ public class Global {
   public static final String SERVER_URL;
   public static final String DATA_SERVER_URL;
   public static final String CHANNEL_SERVER_URL;
-  public static final String RVA_APP_URL;
+  public static final String APPS_URL;
   public static final String PREVIEW_TRACKER_ID;
   public static final String DISPLAY_TRACKER_ID;
 	
@@ -24,13 +24,13 @@ public class Global {
   static {
     if(ENV.equals("prod")) {
       SERVER_URL = "https://rvaserver2.appspot.com";
-      RVA_APP_URL = "http://rva.risevision.com";
+      APPS_URL = "https://apps.risevision.com";
       PREVIEW_TRACKER_ID = "UA-82239-28";
       DISPLAY_TRACKER_ID = "UA-82239-32";
     }
     else {
       SERVER_URL = "https://rvacore-test.appspot.com";
-      RVA_APP_URL = "http://rva-test.appspot.com";
+      APPS_URL = "https://apps-stage-0.risevision.com";
       PREVIEW_TRACKER_ID = "UA-82239-27";
       DISPLAY_TRACKER_ID = "UA-82239-31";
     }

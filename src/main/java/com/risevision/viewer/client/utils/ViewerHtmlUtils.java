@@ -173,12 +173,6 @@ public class ViewerHtmlUtils {
 		$wnd.embedStop =
 		$entry(@com.risevision.viewer.client.ViewerEntryPoint::embedStop());
 		
-//		$wnd.bitlyResponse =
-//		$entry(@com.risevision.viewer.client.widgets.ViewerPreviewShareWidget::bitlyResponse(Lcom/google/gwt/core/client/JavaScriptObject;));
-		
-		$wnd.bitlyResponse =
-		$entry(@com.risevision.viewer.client.widgets.ViewerPreviewWidget::bitlyResponse(Lcom/google/gwt/core/client/JavaScriptObject;));
-		
 		$wnd.channelMessage = 
 		$entry(@com.risevision.viewer.client.channel.ChannelConnectionController::setChannelMessage(Ljava/lang/String;));
 		

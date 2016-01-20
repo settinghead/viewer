@@ -474,27 +474,6 @@ function resizeContainer(elementName, width, height) {
     }
 }
 
-function startBitlyJSONCall(requestUrl, param) {
-    try {
-    	var encodedParam = encodeURIComponent(param);
-    	var fullUrl = requestUrl + encodedParam + "&format=json&callback=?";
-
-    	jQuery.getJSON(fullUrl, function(result) {
-    	    try {   	    	
-	    		bitlyResponse(result);
-//	        	writeToLog("bitlyResponse - " + result + " - Received successfully");
-    	    }
-    	    catch (err) {
-    	    	writeToLog("bitlyResponse - " + result + " - " + err.message);
-    	    }
-		}, "json");
-//    	writeToLog("startBitlyJSONCall - " + url + " - Started successfully");
-    }
-    catch (err) {
-    	writeToLog("startBitlyJSONCall - " + fullUrl + " - " + err.message);
-    }
-}
-
 //function loadScriptAsync(url) {
 //    var s = document.createElement('script');
 //    s.type = 'text/javascript';

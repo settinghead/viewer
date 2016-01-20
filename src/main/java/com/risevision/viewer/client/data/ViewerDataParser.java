@@ -22,8 +22,6 @@ import com.risevision.viewer.client.ViewerEntryPoint;
 import com.risevision.viewer.client.info.ViewerDataInfo;
 import com.risevision.viewer.client.info.ViewerPlayerInfo;
 import com.risevision.viewer.client.player.RisePlayerController;
-import com.risevision.viewer.client.widgets.AdsenseBannerWidget;
-import com.risevision.viewer.client.widgets.TutorialWidget;
 
 public class ViewerDataParser {
 	private static ViewerDataParser instance;
@@ -136,19 +134,6 @@ public class ViewerDataParser {
 			}
 
 			RisePlayerController.setPlayerInfo(playerInfo);
-			
-			JSOModel company = object.getObject("company");
-			if (company != null) {
-//				viewerData.setAuthKey(company.get("authKey"));
-				
-				AdsenseBannerWidget.getInstance().init(company.get(AdsenseBannerWidget.BANNER_URL), 
-						company.get(AdsenseBannerWidget.BANNER_TARGET_URL),
-						company.get(AdsenseBannerWidget.ADSENSE_SERVICE_ID),
-						company.get(AdsenseBannerWidget.ADSENSE_SERVICE_SLOT));
-				
-				tutorialUrl = company.get(TutorialWidget.TUTORIAL_URL);
-//				ViewerPreviewWidget.getInstance().setTutorialUrl(company.get(TutorialWidget.TUTORIAL_URL));
-			}
 			
 			JsArray<JSOModel> social = object.getArray("social");
 			if (social != null) {
