@@ -191,7 +191,7 @@ public class ViewerPresentationController {
 					// Send done command to the first placeholder
 					Command doneCommand = null;
 					if (placeholderDoneCommand != null && 
-							ViewerEntryPoint.isEmbed() &&
+//							ViewerEntryPoint.isEmbed() &&
 							(RiseUtils.strIsNullOrEmpty(presentation.getDonePlaceholder()) ||
 							presentation.getDonePlaceholder().equals(ph.getId()))) {
 						doneCommand = placeholderDoneCommand;
@@ -403,6 +403,10 @@ public class ViewerPresentationController {
 	
 	private void setVisibility(boolean visible) {
 		ViewerHtmlUtils.showElement(htmlName, visible);
+	}
+	
+	public boolean isReady() {
+		return status == ALL_READY_STATUS;
 	}
 	
 	public int getStatus() {
