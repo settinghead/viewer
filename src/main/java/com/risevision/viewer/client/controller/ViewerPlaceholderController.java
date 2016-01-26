@@ -323,7 +323,7 @@ public class ViewerPlaceholderController {
 			}
 		}
 		
-		return isPlaying || placeholderDoneCommand == null;
+		return gadgets.size() == 0 || isPlaying || placeholderDoneCommand == null;
 	}
 	
 	private void verifySchedule(boolean executeDoneCommand) {
