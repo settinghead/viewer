@@ -78,7 +78,7 @@ public class ViewerWidgetController implements ViewerControllerInterface {
 	
 	private String updateUrlParams(String urlParams) {
 		int height, width;
-//		int top = 0, left = 0;
+		int top = 0, left = 0;
 //		urlParams = removeIdParameter(urlParams);
 //		urlParams = addVersionNumber(urlParams);
 		
@@ -96,6 +96,20 @@ public class ViewerWidgetController implements ViewerControllerInterface {
 			height = (int)placeholderInfo.getHeight();
 		}
 		
+		if (placeholderInfo.getTopUnits().equals("%")) {
+			top = (int)((placeholderInfo.getTop() / 100.0) * Window.getClientHeight());
+		}
+		else {
+			top = (int)placeholderInfo.getTop();
+		}
+		
+		if (placeholderInfo.getLeftUnits().equals("%")) {
+			top = (int)((placeholderInfo.getLeft() / 100.0) * Window.getClientWidth());
+		}
+		else {
+			left = (int)placeholderInfo.getLeft();
+		}
+		
 		//"&pid=test1&up_id=test1"
 //		urlParams += "&pid=" + htmlName;
 		urlParams += urlParams.contains("?") ? "&" : "?";
@@ -103,6 +117,8 @@ public class ViewerWidgetController implements ViewerControllerInterface {
 		urlParams += "&parent=" + URL.encodeQueryString(Window.Location.getHref());
 		urlParams += "&up_rsW=" + width;
 		urlParams += "&up_rsH=" + height;
+		urlParams += "&up_rsT=" + top;
+		urlParams += "&up_rsL=" + left;
 		
 		urlParams = urlParams.replace("'", "\\'");
 		
