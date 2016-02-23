@@ -25,7 +25,7 @@ public class ChannelConnectionController extends ChannelConnectionProvider {
 	private static final String REASON_NEW = "new";
 	private static final String REASON_NEW_TOKEN = "newtoken";
 	private static final String REASON_NOPING = "noping";
-	private static final String REASON_ERROR = "error";
+//	private static final String REASON_ERROR = "error";
 	private static final String REASON_RECONNECT = "reconnect";
 		
 	private static Command channelCommand;

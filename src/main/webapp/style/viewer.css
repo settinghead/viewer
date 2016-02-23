@@ -101,26 +101,12 @@ A:hover {
 	margin-right: 15px;
 }
 
-.rounded-border {
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border: 0px solid;
-	padding: 10px;
+.drop-shadow {
+	padding: 0px;
+	-moz-box-shadow: 4px 4px 12px RGBA(0, 0, 0, 0.15);
+	-webkit-box-shadow: 4px 4px 12px RGBA(0, 0, 0, 0.15);
+	box-shadow: 4px 4px 12px RGBA(0, 0, 0, 0.15);
 	
-	-moz-box-shadow: 4px 4px 4px RGBA(0, 0, 0, 0.35);
-	-webkit-box-shadow: 4px 4px 4px RGBA(0, 0, 0, 0.35);
-	box-shadow: 4px 4px 4px RGBA(0, 0, 0, 0.35);
-}
-
-.gradient-overlay-up {
-	/* Firefox 3.6+ */
-	background: -moz-linear-gradient(100% 100% 90deg, rgba(210, 224, 238, 0.9),	rgba(94, 113, 130, 0.9));
-	/* Safari 4-5, Chrome 1-9 */
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, rgba(94, 113, 130, 0.9), rgba(210, 224, 238, 0.9));
-	/* Safari 5.1+, Chrome 10+ */
-	background: -webkit-linear-gradient(rgba(210, 224, 238, 0.9), rgba(94, 113, 130, 0.9));
-	/* Opera 11.10+ */
-	background: -o-linear-gradient(rgba(210, 224, 238, 0.9), rgba(94, 113, 130, 0.9));
 }
 
 .inner-border {
@@ -216,3 +202,60 @@ A:hover {
 .navbar-static-top {
 	border-width: 0 0 1px;
 }
+
+.menu-border-right {
+	border-right: 2px solid #DDD;
+    padding-right: 18px;
+}
+
+.menu-border-left {
+	padding-left: 15px;
+    border-left: 2px solid #ddd;
+}
+
+.alert-panel {
+	background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #333;
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    position: absolute;
+    width: 360px;
+    font-size: 11px;
+}
+
+.btn {
+	-webkit-font-smoothing: subpixel-antialiased;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 3px;
+
+}
+
+.btn-primary {
+	color: #fff;
+    background-color: #4ab767;
+    border-color: #4ab767;
+}
+
+.btn-default {
+	color: #333;
+    background-color: #e8e8e8;
+    border-color: #CCC;
+}
+
+
+
+
+
+
