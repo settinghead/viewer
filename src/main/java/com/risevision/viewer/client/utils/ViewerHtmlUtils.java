@@ -371,5 +371,15 @@ public class ViewerHtmlUtils {
 		try {	
 			$wnd.logExternal(eventName, displayId, version, eventDetails);
 		} catch (err) {}
-	}-*/;	
+	}-*/;
+
+	public static void logAppsEvent(String eventName) {
+		logAppsEventNative(eventName, ViewerEntryPoint.getDisplayId(), ViewerDataController.getItemCompanyId());
+	}
+
+	private static native void logAppsEventNative(String eventName, String displayId, String companyId) /*-{
+		try {
+			$wnd.logAppsEvent(eventName, displayId, companyId);
+		} catch (err) {}
+	}-*/;
 }
