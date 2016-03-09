@@ -158,6 +158,11 @@ public class ViewerEntryPoint implements EntryPoint {
 				// init Analytics for Displays and Preview
 				ViewerHtmlUtils.initAnalytics();
 
+				if(isDisplay() && !isEmbed()) {
+					ViewerHtmlUtils.logAppsEvent("Display Activated");
+					ViewerHtmlUtils.trackAnalyticsEvent("Display", "Display Activated", getDisplayId());
+				}
+
 				if (isPreview()) {
 					if (showUi) {
 						ViewerPreviewWidget.getInstance().show();
