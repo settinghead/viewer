@@ -157,6 +157,10 @@ public class ViewerPlaylistItemController implements ViewerControllerInterface {
 //		else {
 //			updateHtmlGadget(presentation);
 //		}
+		
+		if (ViewerEntryPoint.isDisplay() && playlistItem != null && !PlaylistItemInfo.TYPE_WIDGET.equals(playlistItem.getType())) {
+			ViewerHtmlUtils.logExternalMessage(playlistItem.getType() + " item used", "");
+		}
 	}
 	
 	private void updateHtmlEmbed(PresentationInfo presentation) {

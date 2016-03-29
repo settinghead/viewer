@@ -5,11 +5,14 @@
 package com.risevision.viewer.client.cache;
 
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Timer;
 import com.risevision.common.client.utils.RiseUtils;
+import com.risevision.viewer.client.player.RisePlayerController;
+import com.risevision.viewer.client.utils.ViewerHtmlUtils;
 
 public class RiseCacheController {
 //	private static RiseCacheUtils instance;
-	private static boolean isActive = false; 
+	private static boolean isActive = false;
 	
 //	public RiseCacheUtils() {
 //
@@ -21,6 +24,14 @@ public class RiseCacheController {
 //		}
 //		return instance;
 //	}
+	
+	private static final int PING_TIME = 1 * 60 * 1000;
+	private static Timer cachePingTimer = new Timer() {
+		public void run() {
+			pingCache();
+		}
+	};
+	private static int pingAttempt = 0;
 	
 	public static String getCacheVideoUrl(String url, String extension) {
 		if (!isActive) {
@@ -59,10 +70,22 @@ public class RiseCacheController {
 		if (!isActive) {
 			String url = "http://localhost:9494/ping?callback=?";
 			pingCacheNative(url);
+			
+			if (RisePlayerController.getIsActive()) {
+				cachePingTimer.schedule(PING_TIME);
+				
+				if (pingAttempt > 0) {
+					ViewerHtmlUtils.logExternalMessage("cache ping attempt", Integer.toString(pingAttempt));
+				}
+				
+				pingAttempt++;
+			}
 		}
 	}
 	
 	private static void pingResponseStatic() {
+		cachePingTimer.cancel();
+
 		isActive = true;
 	}
 	
