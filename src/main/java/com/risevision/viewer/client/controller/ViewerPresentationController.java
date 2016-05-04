@@ -214,6 +214,10 @@ public class ViewerPresentationController {
 							doneCommand);
 					
 					placeholders.add(placeholder);
+					
+					if (ViewerEntryPoint.isDisplay() && !ph.getTimeline().canPlay()) {
+						PresentationParser.hidePlaceholder(presentation, ph.getId());
+					}
 //				}
 				}
 				else {

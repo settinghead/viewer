@@ -287,7 +287,12 @@ public class ViewerPlaceholderController {
 		}
 		
 		if (scheduleTime == 0) {
-			verifySchedule(true);
+			if (gadgets.size() == 0) {
+				playEmptyPlaceholder();
+			}
+			else {
+				verifySchedule(true);
+			}
 		}
 	}
 	
@@ -312,18 +317,39 @@ public class ViewerPlaceholderController {
 	}
 	
 	public boolean play() {
-		// [AD] play should execute even if there are no gadgets to show the placeholder if it's empty
-		if (placeholder.isVisible() && /* status == READY_STATUS && */ gadgets.size() > 0 && !isPlaying) {
-			if (ViewerEntryPoint.isDisplay()) {
-				verifySchedule(false);
+		if (placeholder.isVisible() && !isPlaying) {
+			if (gadgets.size() == 0 && ViewerEntryPoint.isDisplay()) {
+				playEmptyPlaceholder();
 			}
-			else {
-				isPlaying = true;
-				playNextItem(false);
+			else if ( /* status == READY_STATUS && */ gadgets.size() > 0) {
+				if (ViewerEntryPoint.isDisplay()) {
+					verifySchedule(false);
+				}
+				else {
+					isPlaying = true;
+					playNextItem(false);
+				}
 			}
 		}
 		
 		return gadgets.size() == 0 || !placeholder.isVisible() || isPlaying || placeholderDoneCommand == null;
+	}
+	
+	public void playEmptyPlaceholder() {
+		if (placeholder.getTimeline().canPlay()) {
+			if (!isPlaying) {
+				isPlaying = true;
+				showPlaceholder(true);
+			}
+		}
+		else {
+			if (isPlaying) {
+				stop();
+			}
+			showPlaceholder(false);
+		}
+
+		setNextScheduleCheck(60);		
 	}
 	
 	private void verifySchedule(boolean executeDoneCommand) {
