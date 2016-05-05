@@ -331,8 +331,11 @@ public class ViewerPlaceholderController {
 				}
 			}
 		}
-		
-		return gadgets.size() == 0 || !placeholder.isVisible() || isPlaying || placeholderDoneCommand == null;
+
+		// returning false doesn't call placeholderDone
+		return placeholderDoneCommand == null || 
+				gadgets.size() == 0 || !placeholder.isVisible() || isPlaying || 
+				(ViewerEntryPoint.isDisplay() && !placeholder.getTimeline().canPlay());
 	}
 	
 	public void playEmptyPlaceholder() {
