@@ -114,7 +114,7 @@ public class ViewerScheduleController {
 		// Removes items with blank durations		
 		int itemCount = 0;
 		for (PlaylistItemInfo item: schedule.getPlayListItems()){
-			if (!item.getDuration().isEmpty() && !(RiseUtils.strToInt(item.getDuration(), 0) < 1)){
+			if (!RiseUtils.strIsNullOrEmpty(item.getDuration()) && !(RiseUtils.strToInt(item.getDuration(), 0) < 1)){
 //				setInheritedValues(item);
 		
 				ViewerPresentationController presentation = ViewerPresentationController.getInstance(item, 

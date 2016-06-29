@@ -129,7 +129,7 @@ public class ViewerPlaceholderController {
 		boolean gadgetReady = false;
 		if (placeholder.getPlaylistItems() != null) {
 			for (PlaylistItemInfo item: placeholder.getPlaylistItems()){
-				if (!item.getDuration().isEmpty() && !(RiseUtils.strToInt(item.getDuration(), 0) < 1)
+				if (!RiseUtils.strIsNullOrEmpty(item.getDuration()) && !(RiseUtils.strToInt(item.getDuration(), 0) < 1)
 						&& (item.getDistributionToAll() || ViewerEntryPoint.checkDistribution(item.getDistribution()))){
 //					setInheritedValues(item);
 					
