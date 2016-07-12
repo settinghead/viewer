@@ -4,6 +4,8 @@
 
 package com.risevision.viewer.client.controller;
 
+import java.util.Date;
+
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -23,6 +25,9 @@ public class ViewerWidgetController implements ViewerControllerInterface {
 //	private boolean canPlay, canStop, canPause, canReportReady, canReportDone;
 	private Command gadgetReadyCommand;
 	private Command gadgetDoneCommand;
+	
+	private long lastDone = 0;
+	private int doneCounter = 0;
 
 	private static final String WIDGET_SCRIPT = "<script><!--\n" +
 			"try {" +
@@ -153,6 +158,24 @@ public class ViewerWidgetController implements ViewerControllerInterface {
 	
 	public void setDone() {
 		if (isPlaying) {
+			if (lastDone != 0 && new Date().getTime() - lastDone < 1000) {				
+				lastDone = new Date().getTime();
+
+				// -1 indicates already logged
+				if (doneCounter != -1) {
+					doneCounter++;
+					
+					if (doneCounter >= 10) {
+						ViewerHtmlUtils.logExternalMessage("widget done loop", playlistItem.getObjectRef());
+						
+						doneCounter = -1;
+					}
+				}
+				
+				return;
+			}
+			lastDone = new Date().getTime();
+
 			if (gadgetDoneCommand != null) {
 				isPlaying = false;
 				gadgetDoneCommand.execute();

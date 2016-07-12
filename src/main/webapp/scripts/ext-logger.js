@@ -95,6 +95,8 @@
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.setRequestHeader("Authorization", "Bearer " + EXTERNAL_LOGGER_TOKEN);
       xhr.send(JSON.stringify(insertData));
+      
+      console.log("Log External Event", insertData.rows[0]);
     }
   }
 
@@ -138,6 +140,8 @@
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("Authorization", "Bearer " + EXTERNAL_LOGGER_TOKEN);
         xhr.send(JSON.stringify(insertData));
+        
+        console.log("Log Apps Event", insertData.rows[0]);
       }
     }
 
