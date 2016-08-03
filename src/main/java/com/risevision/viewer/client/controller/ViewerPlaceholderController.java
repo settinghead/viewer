@@ -150,6 +150,10 @@ public class ViewerPlaceholderController {
 						gadget = new ViewerPlaylistItemController(placeholder, item, htmlName, htmlName + "_" + count, gadgetReadyCommand, gadgetDoneCommand);
 					}
 					
+					if (ViewerEntryPoint.isDisplay() && item != null && !PlaylistItemInfo.TYPE_WIDGET.equals(item.getType())) {
+						ViewerHtmlUtils.logExternalMessage(item.getType() + " item used", "");
+					}
+					
 					gadgets.add(gadget);
 					count++;
 					
