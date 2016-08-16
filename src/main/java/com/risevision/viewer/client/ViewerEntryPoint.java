@@ -66,6 +66,7 @@ public class ViewerEntryPoint implements EntryPoint {
 	public void onModuleLoad() {
 		// loads static methods to be called through JSNI
 		ViewerHtmlUtils.exportStaticMethods();
+		ViewerHtmlUtils.reportViewerInfoToPlayer();
 		
 		updateParameters();
 		

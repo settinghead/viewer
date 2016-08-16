@@ -382,4 +382,14 @@ public class ViewerHtmlUtils {
 			$wnd.logAppsEvent(eventName, displayId, companyId);
 		} catch (err) {}
 	}-*/;
+
+	public static void reportViewerInfoToPlayer() {
+		reportViewerInfoToPlayerNative(Global.VIEWER_VERSION);
+	}
+
+	private static native void reportViewerInfoToPlayerNative(String viewerVersion) /*-{
+		try {
+			$wnd.postToPlayer({ viewerVersion: viewerVersion });
+		} catch (err) {}
+	}-*/;
 }
