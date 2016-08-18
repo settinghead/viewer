@@ -95,10 +95,20 @@ public class RisePlayerController {
 		if (isActive) {
 			String url = baseUrl + cmdHeartbeat + "?callback=?";
 			callUrlNative(url, "ping");
-		
+			pingV3Watchdog();
+
 			playerHeartbeatTimer.schedule(HEARTBEAT_TIME);
 		}
 	}
+
+	private static native void pingV3Watchdog() /*-{
+		try {
+			$wnd.$riseWatchdog.send({
+				message: "ping",
+				from: "viewer"
+			});
+		} catch (err) { }
+	}-*/;
 
 	private static void pingResponseStatic() {
 		//this is not necessary as we detect Player's presence from "player=true" parameter in Viewer's URL
